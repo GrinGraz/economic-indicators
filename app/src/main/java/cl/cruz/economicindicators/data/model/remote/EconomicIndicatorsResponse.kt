@@ -1,4 +1,4 @@
-package cl.cruz.economicindicators.data.model
+package cl.cruz.economicindicators.data.model.remote
 
 data class EconomicIndicatorsResponse(
     val version: String?,
