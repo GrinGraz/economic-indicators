@@ -1,4 +1,4 @@
-package cl.cruz.economicindicators.domain
+package cl.cruz.economicindicators.domain.repository
 
 import cl.cruz.economicindicators.data.model.local.EconomicIndicatorEntity
 import cl.cruz.economicindicators.domain.model.EconomicIndicatorModel
