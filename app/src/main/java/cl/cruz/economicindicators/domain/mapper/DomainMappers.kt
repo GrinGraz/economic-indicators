@@ -1,11 +1,11 @@
 package cl.cruz.economicindicators.domain.mapper
 
 import cl.cruz.economicindicators.data.model.local.EconomicIndicatorEntity
+import cl.cruz.economicindicators.data.model.remote.EconomicIndicatorResponse
 import cl.cruz.economicindicators.data.model.remote.EconomicIndicatorsResponse
-import cl.cruz.economicindicators.data.model.remote.Indicator
 import cl.cruz.economicindicators.domain.model.EconomicIndicatorModel
 
-fun Indicator?.toEconomicIndicatorModel(): EconomicIndicatorModel =
+fun EconomicIndicatorResponse?.toEconomicIndicatorModel(): EconomicIndicatorModel =
     EconomicIndicatorModel(
         code = this?.code ?: "",
         name = this?.name ?: "",
@@ -14,8 +14,17 @@ fun Indicator?.toEconomicIndicatorModel(): EconomicIndicatorModel =
         value = this?.value ?: 0.0
     )
 
-fun Indicator?.toEconomicIndicatorEntity(): EconomicIndicatorEntity =
+fun EconomicIndicatorResponse?.toEconomicIndicatorEntity(): EconomicIndicatorEntity =
     EconomicIndicatorEntity(
+        code = this?.code ?: "",
+        name = this?.name ?: "",
+        measureUnit = this?.measureUnit ?: "",
+        date = this?.date ?: "",
+        value = this?.value ?: 0.0
+    )
+
+fun EconomicIndicatorEntity?.toEconomicIndicatorModel(): EconomicIndicatorModel =
+    EconomicIndicatorModel(
         code = this?.code ?: "",
         name = this?.name ?: "",
         measureUnit = this?.measureUnit ?: "",

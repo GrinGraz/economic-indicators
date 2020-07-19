@@ -1,19 +1,23 @@
 package cl.cruz.economicindicators.data.model.remote
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class EconomicIndicatorsResponse(
-    val version: String?,
-    val autor: String?,
-    val fecha: String?,
-    val uf: Uf?,
-    val ivp: Ivp?,
-    val dolar: Dolar?,
-    val dolarExchange: DolarExchange?,
-    val euro: Euro?,
-    val ipc: Ipc?,
-    val utm: Utm?,
-    val imacec: Imacec?,
-    val tpm: Tpm?,
-    val copperPound: CopperPound?,
-    val unemploymentRate: UnemploymentRate?,
-    val bitcoin: Bitcoin?
+    @Json(name = "version") val version: String?,
+    @Json(name = "autor") val autor: String?,
+    @Json(name = "fecha") val fecha: String?,
+    @Json(name = "uf") val uf: EconomicIndicatorResponse?,
+    @Json(name = "ivp") val ivp: EconomicIndicatorResponse?,
+    @Json(name = "dolar") val dolar: EconomicIndicatorResponse?,
+    @Json(name = "dolar_intercambio") val dolarExchange: EconomicIndicatorResponse?,
+    @Json(name = "euro") val euro: EconomicIndicatorResponse?,
+    @Json(name = "ipc") val ipc: EconomicIndicatorResponse?,
+    @Json(name = "utm") val utm: EconomicIndicatorResponse?,
+    @Json(name = "imacec") val imacec: EconomicIndicatorResponse?,
+    @Json(name = "tpm") val tpm: EconomicIndicatorResponse?,
+    @Json(name = "libra_cobre") val copperPound: EconomicIndicatorResponse?,
+    @Json(name = "tasa_desempleo") val unemploymentRate: EconomicIndicatorResponse?,
+    @Json(name = "bitcoin") val bitcoin: EconomicIndicatorResponse?
 )
