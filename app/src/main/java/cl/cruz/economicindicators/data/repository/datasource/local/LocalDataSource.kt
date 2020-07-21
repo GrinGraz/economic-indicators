@@ -6,5 +6,4 @@ interface LocalDataSource {
     suspend fun getAll(): List<EconomicIndicatorEntity>
     fun findByCode(code: String): EconomicIndicatorEntity
     fun insertAll(vararg economicIndicatorEntity: EconomicIndicatorEntity)
-    fun delete(economicIndicatorEntity: EconomicIndicatorEntity)
 }

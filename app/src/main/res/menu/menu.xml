@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/logout" android:title="Logout" android:icon="@drawable/ic_baseline_exit_to_app_24" />
+    <item android:id="@+id/refresh" android:title="Refresh" android:visible="true" app:showAsAction="always" android:icon="@drawable/ic_baseline_refresh_24" />
+</menu>

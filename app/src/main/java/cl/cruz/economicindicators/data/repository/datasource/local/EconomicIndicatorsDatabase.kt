@@ -9,7 +9,6 @@ import cl.cruz.economicindicators.data.model.local.EconomicIndicatorEntity
 
 @Database(
     entities = [EconomicIndicatorEntity::class],
-    //views = [EconomicIndicatorDetailView::class, EconomicIndicatorView::class],
     version = 2
 )
 abstract class EconomicIndicatorsDatabase : RoomDatabase() {

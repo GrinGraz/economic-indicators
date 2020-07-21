@@ -1,6 +1,6 @@
 package cl.cruz.economicindicators.data.repository.datasource.remote
 
-import android.util.Log
+import cl.cruz.economicindicators.BuildConfig
 import cl.cruz.economicindicators.data.model.remote.EconomicIndicatorsResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,9 +18,11 @@ interface EconomicIndicatorsService : RemoteDataSource {
 
     companion object {
         val economicIndicatorsApi: EconomicIndicatorsService by lazy {
-            Log.d("WebAccess", "Creating retrofit client")
+            val httpLoggingInterceptor = HttpLoggingInterceptor()
+            if (BuildConfig.DEBUG) httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            else httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
             val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(httpLoggingInterceptor)
                 .build()
 
             val retrofit = Retrofit.Builder()

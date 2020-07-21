@@ -13,7 +13,4 @@ interface EconomicIndicatorDao : LocalDataSource {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override fun insertAll(vararg economicIndicatorEntity: EconomicIndicatorEntity)
-
-    @Delete
-    override fun delete(economicIndicatorEntity: EconomicIndicatorEntity)
 }
