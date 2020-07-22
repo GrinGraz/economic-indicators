@@ -1,8 +1,8 @@
-package cl.cruz.economicindicators
+package cl.cruz.economicindicators.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import cl.cruz.economicindicators.ui.main.MainFragment
+import androidx.appcompat.app.AppCompatActivity
+import cl.cruz.economicindicators.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,8 +11,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
-                    .commitNow()
+                .replace(R.id.container, MainFragment.newInstance())
+                .commitNow()
         }
     }
 }

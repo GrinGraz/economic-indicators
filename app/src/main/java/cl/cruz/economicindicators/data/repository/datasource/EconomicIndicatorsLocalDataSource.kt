@@ -3,13 +3,12 @@ package cl.cruz.economicindicators.data.repository.datasource
 import cl.cruz.economicindicators.data.model.local.EconomicIndicatorEntity
 import cl.cruz.economicindicators.data.repository.datasource.local.EconomicIndicatorsDatabase
 import cl.cruz.economicindicators.data.repository.datasource.local.LocalDataSource
-import kotlinx.coroutines.flow.Flow
+import cl.cruz.economicindicators.di.injector
 
 class EconomicIndicatorsLocalDataSource(
-    private val economicIndicatorsDatabase: EconomicIndicatorsDatabase =
-        EconomicIndicatorsDatabase.instance
+    private val economicIndicatorsDatabase: EconomicIndicatorsDatabase = injector.database
 ) : LocalDataSource {
-    override fun getAll(): Flow<List<EconomicIndicatorEntity>> {
+    override suspend fun getAll(): List<EconomicIndicatorEntity> {
         return economicIndicatorsDatabase.economicIndicatorDao().getAll()
     }
 
