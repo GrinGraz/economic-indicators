@@ -9,7 +9,6 @@ import cl.cruz.economicindicators.data.model.local.EconomicIndicatorEntity
 
 @Database(
     entities = [EconomicIndicatorEntity::class],
-    //views = [EconomicIndicatorDetailView::class, EconomicIndicatorView::class],
     version = 2
 )
 abstract class EconomicIndicatorsDatabase : RoomDatabase() {
@@ -18,8 +17,8 @@ abstract class EconomicIndicatorsDatabase : RoomDatabase() {
     companion object {
         private const val DB_NAME = "economic_indicators.db"
 
-        fun getInstance(context: Context): EconomicIndicatorsDatabase {
-            return Room.databaseBuilder(context, EconomicIndicatorsDatabase::class.java, DB_NAME)
+        fun getInstance(context: Context): EconomicIndicatorsDatabase =
+            Room.databaseBuilder(context, EconomicIndicatorsDatabase::class.java, DB_NAME)
                 .fallbackToDestructiveMigration()
                 .addCallback(object : Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
@@ -27,6 +26,6 @@ abstract class EconomicIndicatorsDatabase : RoomDatabase() {
                         // will create stub data
                     }
                 }).build()
-        }
+
     }
 }

@@ -6,10 +6,10 @@ import cl.cruz.economicindicators.data.repository.datasource.remote.RemoteDataSo
 import cl.cruz.economicindicators.di.injector
 
 class EconomicIndicatorsRemoteDataSource(
-    private val economicIndicatorsService: EconomicIndicatorsService = injector.apiService
+    private val economicIndicatorsService: EconomicIndicatorsService
 ) : RemoteDataSource {
 
-    override suspend fun getEconomicIndicators(): EconomicIndicatorsResponse {
-        return economicIndicatorsService.getEconomicIndicators()
-    }
+    override suspend fun getEconomicIndicators(): EconomicIndicatorsResponse =
+        economicIndicatorsService.getEconomicIndicators()
+
 }

@@ -1,6 +1,9 @@
 package cl.cruz.economicindicators.data.repository.datasource.local
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import cl.cruz.economicindicators.data.model.local.EconomicIndicatorEntity
 
 @Dao
@@ -13,7 +16,4 @@ interface EconomicIndicatorDao : LocalDataSource {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override fun insertAll(vararg economicIndicatorEntity: EconomicIndicatorEntity)
-
-    @Delete
-    override fun delete(economicIndicatorEntity: EconomicIndicatorEntity)
 }

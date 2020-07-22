@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Economic Indicators</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="code_title">Code</string>
+    <string name="name_title">Name</string>
+    <string name="value_title">Value</string>
+    <string name="unit_title">Unit</string>
+    <string name="date_title">Date</string>
+    <string name="logout">Logout</string>
+    <string name="refresh">Refresh</string>
+    <string name="search">Search</string>
+    <string name="error">Error getting indicators\nPlease retry</string>
+    <string name="retry">Retry</string>
+    <string name="prefs_file">prefs</string>
 </resources>
