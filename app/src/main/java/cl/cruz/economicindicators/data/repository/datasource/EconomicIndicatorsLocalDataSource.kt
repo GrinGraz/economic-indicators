@@ -7,15 +7,14 @@ import cl.cruz.economicindicators.data.repository.datasource.local.LocalDataSour
 class EconomicIndicatorsLocalDataSource(
     private val economicIndicatorsDatabase: EconomicIndicatorsDatabase
 ) : LocalDataSource {
-    override suspend fun getAll(): List<EconomicIndicatorEntity> {
-        return economicIndicatorsDatabase.economicIndicatorDao().getAll()
-    }
+    override suspend fun getAll(): List<EconomicIndicatorEntity> =
+        economicIndicatorsDatabase.economicIndicatorDao().getAll()
 
-    override fun findByCode(code: String): EconomicIndicatorEntity {
-        return economicIndicatorsDatabase.economicIndicatorDao().findByCode(code)
-    }
 
-    override fun insertAll(vararg economicIndicatorEntity: EconomicIndicatorEntity) {
+    override fun findByCode(code: String): EconomicIndicatorEntity =
+        economicIndicatorsDatabase.economicIndicatorDao().findByCode(code)
+
+    override fun insertAll(vararg economicIndicatorEntity: EconomicIndicatorEntity) =
         economicIndicatorsDatabase.economicIndicatorDao().insertAll(*economicIndicatorEntity)
-    }
+
 }

@@ -2,8 +2,10 @@ package cl.cruz.economicindicators.data.repository.datasource
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import cl.cruz.economicindicators.R
 import cl.cruz.economicindicators.data.repository.datasource.sharedpreferences.SharedPreferencesDataSource
 import java.io.IOException
 import java.security.GeneralSecurityException
@@ -16,25 +18,33 @@ class SharedPrefsDataSource(applicationContext: Context) :
     private var sharedPrefs: SharedPreferences? = null
 
     init {
-        val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
-        val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
-
         try {
-            sharedPrefs = EncryptedSharedPreferences
-                .create(
-                    "prefs",
-                    masterKeyAlias,
-                    applicationContext,
-                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                sharedPrefs = applicationContext.getSharedPreferences(
+                    applicationContext.getString(R.string.prefs_file),
+                    Context.MODE_PRIVATE
                 )
-            sharedPrefsEditor = sharedPrefs!!.edit()
+                sharedPrefsEditor = sharedPrefs!!.edit()
+            } else {
+                val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
+                val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
+                sharedPrefs = EncryptedSharedPreferences
+                    .create(
+                        "prefs",
+                        masterKeyAlias,
+                        applicationContext,
+                        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                    )
+                sharedPrefsEditor = sharedPrefs!!.edit()
+            }
         } catch (e: GeneralSecurityException) {
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
         }
 
+        // to try with stored user
         //saveUser(username = "Christopher", password = "Ztr4ng3_P4zzw0rd.01")
     }
 

@@ -7,6 +7,7 @@ class LoginDataRepository(private val sharedPreferences: SharedPreferencesDataSo
 
     override fun login(username: String, password: String): Boolean {
         sharedPreferences.saveUser(username, password)
+        // to try with stores user
         //val user = sharedPreferences.getUser()
         //user.first == username && user.second == password
         return true

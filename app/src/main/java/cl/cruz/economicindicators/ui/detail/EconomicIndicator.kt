@@ -16,9 +16,9 @@ const val POSTFIX_CLP = "CLP"
 const val POSTFIX_PERCENTAGE = "%"
 const val POSTFIX_USD = "USD"
 
-fun EconomicIndicator.formatIndicatorValue() = when(measureUnit) {
-    "Pesos"-> "$$value $POSTFIX_CLP"
-    "Porcentaje"-> "$value$POSTFIX_PERCENTAGE"
-    "Dólar"-> "$$value $POSTFIX_USD"
+fun EconomicIndicator.formatIndicatorValue() = when (measureUnit) {
+    "Pesos" -> "$$value $POSTFIX_CLP"
+    "Porcentaje" -> "$value$POSTFIX_PERCENTAGE"
+    "Dólar" -> "$$value $POSTFIX_USD"
     else -> "$value (Not formatted)"
 }

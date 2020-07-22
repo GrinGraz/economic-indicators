@@ -7,9 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -18,60 +15,58 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cl.cruz.economicindicators.R
+import cl.cruz.economicindicators.databinding.FragmentLoginBinding
+import cl.cruz.economicindicators.presentation.LoginFormState
+import cl.cruz.economicindicators.presentation.LoginResult
 import cl.cruz.economicindicators.presentation.LoginViewModel
 import cl.cruz.economicindicators.ui.main.MainFragment
 
 class LoginFragment : Fragment() {
 
+    companion object {
+        fun newInstance(): LoginFragment {
+            val args = Bundle()
+
+            val fragment = LoginFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     private lateinit var loginViewModel: LoginViewModel
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.subtitle = ""
+        setViewModel()
+        checkUserExist()
+        setTextWatcher()
+        setLoginOnclick()
+    }
+
+    private fun setViewModel() {
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        loginViewModel.loginFormState.observe(viewLifecycleOwner, Observer(::showLoginFormState))
+        loginViewModel.loginResult.observe(viewLifecycleOwner, Observer(::showLoginResult))
+    }
+
+    private fun checkUserExist() {
         val userData = loginViewModel.getUserData()
         if (userData.isNotBlank()) updateUiWithUser(LoggedInUserView(userData))
+    }
 
-        (activity as AppCompatActivity).supportActionBar?.subtitle = ""
-
-        val usernameEditText = view.findViewById<EditText>(R.id.username)
-        val passwordEditText = view.findViewById<EditText>(R.id.password)
-        val loginButton = view.findViewById<Button>(R.id.login)
-        val loadingProgressBar = view.findViewById<ProgressBar>(R.id.loading)
-
-        loginViewModel.loginFormState.observe(viewLifecycleOwner,
-            Observer { loginFormState ->
-                if (loginFormState == null) {
-                    return@Observer
-                }
-                loginButton.isEnabled = loginFormState.isDataValid
-                loginFormState.usernameError?.let {
-                    usernameEditText.error = getString(it)
-                }
-                loginFormState.passwordError?.let {
-                    passwordEditText.error = getString(it)
-                }
-            })
-
-        loginViewModel.loginResult.observe(viewLifecycleOwner,
-            Observer { loginResult ->
-                loginResult ?: return@Observer
-                loadingProgressBar.visibility = View.GONE
-                loginResult.error?.let {
-                    showLoginFailed(it)
-                }
-                loginResult.success?.let {
-                    updateUiWithUser(it)
-                }
-            })
-
+    private fun setTextWatcher() {
         val afterTextChangedListener = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 // ignore
@@ -83,27 +78,53 @@ class LoginFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable) {
                 loginViewModel.loginDataChanged(
-                    usernameEditText.text.toString(),
-                    passwordEditText.text.toString()
+                    binding.username.text.toString(),
+                    binding.password.text.toString()
                 )
             }
         }
-        usernameEditText.addTextChangedListener(afterTextChangedListener)
-        passwordEditText.addTextChangedListener(afterTextChangedListener)
-        passwordEditText.setOnEditorActionListener { _, actionId, _ ->
+        binding.username.addTextChangedListener(afterTextChangedListener)
+        binding.password.addTextChangedListener(afterTextChangedListener)
+
+        binding.password.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 loginViewModel.login(
-                    usernameEditText.text.toString(),
-                    passwordEditText.text.toString()
+                    binding.username.text.toString(),
+                    binding.password.text.toString()
                 )
             }
             false
         }
+    }
 
-        loginButton.setOnClickListener {
-            loadingProgressBar.visibility = View.VISIBLE
-            loginViewModel.login(usernameEditText.text.toString(), passwordEditText.text.toString()
+    private fun setLoginOnclick() {
+        binding.login.setOnClickListener {
+            binding.loading.visibility = View.VISIBLE
+            loginViewModel.login(
+                binding.username.text.toString(), binding.password.text.toString()
             )
+        }
+    }
+
+    private fun showLoginResult(loginResult: LoginResult?) {
+        loginResult ?: return
+        binding.loading.visibility = View.GONE
+        loginResult.error?.let {
+            showLoginFailed(it)
+        }
+        loginResult.success?.let {
+            updateUiWithUser(it)
+        }
+    }
+
+    private fun showLoginFormState(loginFormState: LoginFormState?) {
+        loginFormState ?: return
+        binding.login.isEnabled = loginFormState.isDataValid
+        loginFormState.usernameError?.let {
+            binding.username.error = getString(it)
+        }
+        loginFormState.passwordError?.let {
+            binding.password.error = getString(it)
         }
     }
 
@@ -111,7 +132,11 @@ class LoginFragment : Fragment() {
         if (parentFragmentManager.findFragmentByTag("MainFragment") == null) {
             parentFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.container, MainFragment.newInstance(model.displayName), "MainFragment")
+                .replace(
+                    R.id.container,
+                    MainFragment.newInstance(model.displayName),
+                    "MainFragment"
+                )
                 .commit()
         }
     }
@@ -121,13 +146,8 @@ class LoginFragment : Fragment() {
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
     }
 
-    companion object {
-        fun newInstance(): LoginFragment {
-            val args = Bundle()
-
-            val fragment = LoginFragment()
-            fragment.arguments = args
-            return fragment
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

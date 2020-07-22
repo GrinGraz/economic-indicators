@@ -9,7 +9,7 @@ class EconomicIndicatorsRemoteDataSource(
     private val economicIndicatorsService: EconomicIndicatorsService
 ) : RemoteDataSource {
 
-    override suspend fun getEconomicIndicators(): EconomicIndicatorsResponse {
-        return economicIndicatorsService.getEconomicIndicators()
-    }
+    override suspend fun getEconomicIndicators(): EconomicIndicatorsResponse =
+        economicIndicatorsService.getEconomicIndicators()
+
 }

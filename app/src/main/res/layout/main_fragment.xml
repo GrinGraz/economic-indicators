@@ -23,14 +23,15 @@
         android:id="@+id/error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Error getting indicator\nPlease retry"
+        android:gravity="center"
+        android:text="@string/error"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -42,7 +43,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/recycler_view"
         app:layout_constraintTop_toTopOf="@+id/recycler_view"
-        tools:visibility="gone" />
+        tools:visibility="visible"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/colorDecorations"
+        android:text="@string/retry"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/error_message"
+        app:layout_constraintStart_toStartOf="@+id/error_message"
+        app:layout_constraintTop_toBottomOf="@+id/error_message" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

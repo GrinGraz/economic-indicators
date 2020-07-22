@@ -1,10 +1,7 @@
 package cl.cruz.economicindicators.data.model
 
-import cl.cruz.economicindicators.domain.model.EconomicIndicatorModel
-
 sealed class Result<out R> {
-
-    data class Success<out T: List<EconomicIndicatorModel>>(val data: T) : Result<T>()
+    data class Success<out T>(val data: T) : Result<T>()
     data class Error(val exception: Exception) : Result<Nothing>()
     object Loading : Result<Nothing>()
 
@@ -14,6 +11,17 @@ sealed class Result<out R> {
             is Error -> "Error[exception=$exception]"
             Loading -> "Loading"
         }
+    }
+}
+
+//
+fun <R> Result<R>.get(): R {
+    if (succeeded) {
+        this as Result.Success
+        return data
+    }else{
+        this as Result.Error
+        throw exception
     }
 }
 
