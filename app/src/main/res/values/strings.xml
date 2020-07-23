@@ -19,4 +19,5 @@
     <string name="error">Error getting indicators\nPlease retry</string>
     <string name="retry">Retry</string>
     <string name="prefs_file">prefs</string>
+    <string name="no_connection_message">Showing local data, check your internet connection</string>
 </resources>

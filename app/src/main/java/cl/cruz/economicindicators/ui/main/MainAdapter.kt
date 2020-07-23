@@ -86,6 +86,7 @@ class MainAdapter(private val itemEventListener: ItemEventListener) :
                 return filterResults
             }
 
+            @Suppress("UNCHECKED_CAST")
             override fun publishResults(
                 charSequence: CharSequence,
                 filterResults: FilterResults

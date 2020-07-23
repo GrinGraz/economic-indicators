@@ -2,6 +2,7 @@ package cl.cruz.economicindicators.ui.main
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -98,7 +99,8 @@ class MainFragment : Fragment(), DetailsFragment.BackListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.subtitle = "Welcome $username"
+        (activity as AppCompatActivity).supportActionBar?.subtitle =
+            "${getString(R.string.welcome)} $username"
         setRecycler()
         setViewModel()
         setRetryClickListener()
@@ -132,12 +134,15 @@ class MainFragment : Fragment(), DetailsFragment.BackListener {
         }
     }
 
+    @Suppress("UNUSED")
     private fun showConnectionState(connectionState: ConnectionState?) {
-        Snackbar.make(
-            view!!,
-            "Showing local data, check your internet connection",
-            Snackbar.LENGTH_SHORT
-        ).show()
+        view?.let {
+            Snackbar.make(
+                it,
+                getString(R.string.no_connection_message),
+                Snackbar.LENGTH_LONG
+            ).show()
+        } ?: Toast.makeText(context, getString(R.string.no_connection_message), Toast.LENGTH_LONG).show()
     }
 
     @Suppress("UNCHECKED_CAST")
